@@ -13,6 +13,18 @@
 
 ---
 
+## Installing Resource Groups
+
+1. https://dev.azure.com/devdiv/DevDiv/_build/results?buildId=14070682&view=artifacts&pathAsName=false&type=publishedArtifacts
+2. Download `vscode-azureresourcegroups-0.12.4.vsix` 
+![Pipeline artifacts](image.png)
+3. Open command palette (cntrl+shift+p) or (cmd+shift+p)
+4. Install from VSIX 
+![alt text](image-1.png)
+5. Open command palette again
+6. Reload
+![alt text](image-2.png)
+
 ## Skills
 
 Both skills are triggered naturally through the Copilot on Rails guided agent flow.
