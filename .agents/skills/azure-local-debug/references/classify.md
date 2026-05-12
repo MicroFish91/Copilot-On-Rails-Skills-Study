@@ -32,26 +32,11 @@ Scan every subdirectory for the following signals. Ignore: `node_modules/`, `.gi
 | 1 | `host.json` exists and Azure Functions SDK in dependencies | **Azure Functions** | ✅ Implemented | [project-types/functions.md](project-types/functions.md) |
 | 2 | `Dockerfile` exists | **Container App** | 🔲 Planned | [limited-support.md](limited-support.md) |
 | 3 | Web framework detected (Express/Fastify/ASP.NET/FastAPI/Flask/Spring) **AND** no `host.json` **AND** no `Dockerfile` | **App Service** | 🔲 Planned | [limited-support.md](limited-support.md) |
-| 4 | `*.AppHost.csproj` exists **OR** `<Sdk Name="Aspire.AppHost.Sdk">` in csproj **OR** `Aspire.Hosting.AppHost` PackageReference | **.NET Aspire** | ✅ Implemented | [orchestrators/aspire.md](orchestrators/aspire.md) — **short-circuits** compose + emulator launch generation |
+| 4 | `.AppHost.csproj` or `Aspire.Hosting` package in `*.csproj` | **.NET Aspire** | 🔲 Planned | [limited-support.md](limited-support.md) |
 | 5 | SPA framework detected (React/Vue/Angular/Svelte via `package.json`) **OR** `vite.config.*` / `next.config.*` / `angular.json` present **AND** no `host.json` | **Frontend SPA** | ✅ Implemented | [project-types/frontend-spa.md](project-types/frontend-spa.md) |
 | ∞ | No match | **Unknown** | — | [limited-support.md](limited-support.md) |
 
-> **Frontend SPA projects** do not require emulators or Azure bindings, but they **are** service roots. They contribute a browser debug configuration and a dev-server task. When a frontend is detected alongside a backend, the workspace is multi-service and **must** produce a compound debug configuration. See the active IDE adapter in [ide/](ide/) for the IDE-specific format.
-
-> **.NET Aspire short-circuit.** When detected, Phase 2 **MUST NOT** generate `docker-compose.yml`, `scripts/emulators-*.sh`, or a `func host start` / attach-by-processName task chain. AppHost owns container lifecycle, service discovery, health, and OTel. Emit a single AppHost launch config plus extension recommendations for the C# Dev Kit (IDE-specific — see [ide/{ide}.md](ide/)). See [orchestrators/aspire.md](orchestrators/aspire.md).
-
-> **Default orchestrator (no Aspire signals): docker-compose.** Phase 2 generates `docker-compose.yml`, `scripts/emulators-*.{sh,ps1}`, and a `Start Emulators` IDE task. See [orchestrators/docker-compose.md](orchestrators/docker-compose.md) for the artifact contract and compose-file invariants.
-
-### Functions SDK Detection
-
-After matching the **Azure Functions** row above, confirm the language by checking for the appropriate SDK in the project root:
-
-| Language | SDK Signal | Detection Command |
-|----------|-----------|-------------------|
-| Node.js / TypeScript | `@azure/functions` in `package.json` | `grep '"@azure/functions"' package.json` |
-| .NET / C# | `Microsoft.NET.Sdk.Functions` in `*.csproj` | `grep 'Microsoft.NET.Sdk.Functions' *.csproj` |
-| Python | `azure-functions` in `requirements.txt` | `grep 'azure-functions' requirements.txt` |
-| Java | `azure-functions-java-library` in `pom.xml` | `grep 'azure-functions-java-library' pom.xml` |
+> **Frontend SPA projects** may not require emulators or Azure bindings, but they **are** service roots. They contribute a browser debug configuration and a dev-server task. When a frontend is detected alongside a backend, the workspace is multi-service and **must** produce a compound debug configuration. See the active IDE adapter in [ide/](ide/) for the IDE-specific format.
 
 
 ---
@@ -66,7 +51,7 @@ After identifying the project type for a root, determine the language and runtim
 |---|-------------------|---------|---------------|--------|-----------|
 | 1 | `package.json` (+ `tsconfig.json`) | **node-ts** | `engines.node` / `.nvmrc` / `.node-version` | ✅ Implemented | [runtimes/node.md](runtimes/node.md) |
 | 2 | `package.json` (no TypeScript) | **node-js** | Same | ✅ Implemented | [runtimes/node.md](runtimes/node.md) |
-| 3 | `*.csproj` | **dotnet** | `<TargetFramework>` element | ✅ Implemented | [runtimes/dotnet.md](runtimes/dotnet.md) |
+| 3 | `*.csproj` | **dotnet** | `<TargetFramework>` element | 🔲 Planned | [limited-support.md](limited-support.md) |
 | 4 | `requirements.txt` / `pyproject.toml` | **python** | `.python-version` / `requires-python` | 🔲 Planned | [limited-support.md](limited-support.md) |
 | 5 | `pom.xml` / `build.gradle` | **java** | `<java.version>` / `sourceCompatibility` | 🔲 Planned | [limited-support.md](limited-support.md) |
 | 6 | `go.mod` | **go** | `go` directive | 🔲 Planned | [limited-support.md](limited-support.md) |

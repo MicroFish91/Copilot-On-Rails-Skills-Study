@@ -1,10 +1,6 @@
 # API Test Collection Patterns
 
 > Reference for generating `api-test-collections/local-development/` scripts. Scripts should be language-agnostic commands that exercise the running app and test its integration with any live emulators.
->
-> **HTTP patterns** use `{baseUrl}` — the project type supplies the base URL (e.g., `http://localhost:7071/api` for Functions). All other patterns target the emulator directly and are reusable across project types.
->
-> **.NET projects** should additionally get a `.http` file (`src/Functions/Functions.http` or `src/Api/Api.http`) for interactive developer testing in Visual Studio / VS Code. Shell collections here are the **automatable / CI** surface; `.http` files are the **interactive / developer** surface. See [runtimes/dotnet.md §API Testing with `.http` Files](../../shared-references/runtimes/dotnet.md#api-testing-with-http-files) for the pattern.
 
 ---
 

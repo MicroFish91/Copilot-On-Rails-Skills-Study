@@ -17,7 +17,6 @@ You **MUST** create this plan file BEFORE generating any configuration files. Pr
 > development setup requirements for the current workspace.
 >
 > **Status:** Planning | Approved | Executing | Implemented  
-> **Orchestrator:** {docker-compose | Aspire AppHost} *(set by classification — see [orchestrators/](orchestrators/))*  
 > **Created:** {ISO-8601 datetime, e.g. 2026-03-27T20:08:48Z}  
 > **Last Updated:** {ISO-8601 datetime, updated on every status change}
 
