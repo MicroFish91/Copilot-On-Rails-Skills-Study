@@ -50,7 +50,7 @@ The skill assembles `launch.json` entries by combining **debugger properties** f
 | Runtime | Debug Protocol → VS Code Debugger Type | Extra Fields | Status |
 |---------|----------------------|--------------|--------|
 | node | Node Inspector → `node` | — | ✅ Implemented |
-| dotnet | CoreCLR DAP → `coreclr` | Shape A (`launch`): `program`, `cwd`, `console`. Shape B (`attach`): literal `processName` **with `.exe` suffix on Windows**. ⛔ Never use `${command:pickProcess}`. See [runtimes/dotnet.md](../runtimes/dotnet.md). | ✅ Implemented |
+| dotnet | CoreCLR DAP → `coreclr` | `"processId": "${command:pickProcess}"` | ⛔ Not yet implemented |
 | python | debugpy DAP → `debugpy` | `"connect": { "host": "localhost", "port": 5678 }` | ⛔ Not yet implemented |
 | java | JDWP → `java` | `"hostName": "localhost"` | ⛔ Not yet implemented |
 | go | Delve DAP → `go` | `"mode": "remote"` | ⛔ Not yet implemented |
@@ -122,7 +122,7 @@ This task is present only when emulators are required (i.e., when a `docker-comp
 |---------|----------------------|----------------------|--------|
 | node-ts | `$tsc-watch` | `$tsc` | ✅ Implemented |
 | node-js | — | — | ✅ Implemented |
-| dotnet | `$msCompile` | `$msCompile` | ✅ Implemented |
+| dotnet | `$msCompile` | `$msCompile` | ⛔ Not yet implemented |
 | python | — | — | ⛔ Not yet implemented |
 | java | — | — | ⛔ Not yet implemented |
 | go | — | — | ⛔ Not yet implemented |
@@ -149,7 +149,7 @@ The top-level task uses the VS Code `func` task type provided by the Azure Funct
 |---------|-----------|----------------|--------|
 | node-ts | `func` | `$func-node-watch` | ✅ Implemented |
 | node-js | `func` | `$func-node-watch` | ✅ Implemented |
-| dotnet  | `func` | `$func-dotnet-watch` | ✅ Implemented — see [runtimes/dotnet.md](../runtimes/dotnet.md) for Shape A vs Shape B |
+| dotnet  | `func` | `$func-dotnet-watch` | ⛔ Not yet implemented |
 | python  | `func` | `$func-python-watch` | ⛔ Not yet implemented |
 | java    | `func` | `$func-java-watch` | ⛔ Not yet implemented |
 
@@ -251,12 +251,8 @@ For each **non-compound** launch configuration in `.vscode/launch.json`:
    - For `node`-type configs (Functions): `curl -s -o /dev/null -w "%{http_code}" http://localhost:7071/api/health` → expect `200` (port `7071` is the Functions host HTTP port; debug port `9229` is for the debugger only)
    - For `chrome`-type configs (browser dev servers): `curl -s -o /dev/null -w "%{http_code}" http://localhost:<url port from launch config>` → expect `200` or `301`
    - **Note:** For `chrome`-type configs you are validating that the dev server started and is reachable — you do NOT need to launch a browser. The `preLaunchTask` is a shell task (`npm run dev` / Vite) that runs in the terminal like any other.
-7. **For `coreclr` attach configs (`"request": "attach"` + `processName`):** after the ready signal is observed, list running OS processes and confirm a process with the exact name in `processName` exists. If it doesn't, the F5 attach WILL fail with `"No process with the specified name is currently running"`.
-   - Windows PowerShell: `Get-Process -Name "<processName without .exe>" -ErrorAction SilentlyContinue` → must return a process
-   - macOS/Linux: `pgrep -x "<processName>"` → must return a PID
-   - The `processName` field MUST include the `.exe` suffix on Windows (e.g., `"Scrapbook.Api.exe"`, NOT `"Scrapbook.Api"`). If this check fails, fix `launch.json` before marking the config ✅.
-8. Kill background processes, then move to the next config
-9. For compound configs: skip running them; mark ✅ if all named member configs passed, ❌ if any failed
+7. Kill background processes, then move to the next config
+8. For compound configs: skip running them; mark ✅ if all named member configs passed, ❌ if any failed
 
 **You MUST then edit the `## Debug Configuration Checklist` section in `.azure/local-development-plan.md`:**
 

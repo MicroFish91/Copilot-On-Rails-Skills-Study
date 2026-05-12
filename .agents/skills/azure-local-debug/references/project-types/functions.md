@@ -9,7 +9,18 @@ Reference guide for local development setup of Azure Functions projects.
 | Signal | Notes |
 |--------|-------|
 | `host.json` present | Primary signal — required |
-| Azure Functions SDK in dependencies | Confirms it's a Functions project — see [classify.md § Functions SDK Detection](../classify.md) |
+| Azure Functions SDK in dependencies | Confirms it's a Functions project — see SDK Detection below |
+
+### SDK Detection
+
+Check for Azure Functions SDK after confirming `host.json` exists:
+
+| Language | SDK Signal |
+|----------|-----------|
+| Node.js / TypeScript | `@azure/functions` in `package.json` |
+| .NET / C# | `Microsoft.NET.Sdk.Functions` in `*.csproj` |
+| Python | `azure-functions` in `requirements.txt` |
+| Java | `azure-functions-java-library` in `pom.xml` |
 
 ---
 
@@ -19,14 +30,11 @@ Reference guide for local development setup of Azure Functions projects.
 |---------|--------|-----------|
 | node-ts | ✅ Implemented | [runtimes/node.md](../runtimes/node.md) |
 | node-js | ✅ Implemented | [runtimes/node.md](../runtimes/node.md) |
-| dotnet (Functions isolated) | ✅ Implemented | [runtimes/dotnet.md](../runtimes/dotnet.md) |
-| dotnet (Aspire AppHost) | ✅ Implemented — handled by [orchestrators/aspire.md](../orchestrators/aspire.md), **not** this project type | See orchestrator doc |
+| dotnet  | 🔲 Planned | [limited-support.md](../limited-support.md) |
 | python  | 🔲 Planned | [limited-support.md](../limited-support.md) |
 | java    | 🔲 Planned | [limited-support.md](../limited-support.md) |
 
 > **⚠️ Emulators only:** When a runtime with limited support is detected, proceed with emulator setup (docker-compose) — this is language-agnostic. Skip IDE debug/launch configuration generation and inform the user to configure those manually or notify and provide best effort attempt.
->
-> **If the workspace contains an Aspire AppHost**, this project-type doc does NOT apply even if `host.json` is also present — the classifier matches the Aspire row first. Aspire supersedes the Functions-isolated flow for that workspace.
 
 ---
 
@@ -67,8 +75,6 @@ func host start
 
 > The Azure Functions Core Tools handle debug flag injection for the appropriate runtime automatically (e.g., `--inspect` for Node.js).
 
-> **Two debug shapes for .NET.** Functions Worker 2.x supports both `dotnet run` + `coreclr launch` (HTTP-only projects) **and** `func host start` + `coreclr attach` (any trigger mix). See [runtimes/dotnet.md § Two Supported Debug Shapes](../runtimes/dotnet.md). For non-.NET runtimes the attach-by-`func host start` shape is the only path.
-
 ---
 
 ## Runtime Wiring
@@ -76,21 +82,15 @@ func host start
 <!-- Combines with runtimes/{rt}.md (protocol, port) and ide/{ide}.md to produce IDE debug config.
      Debug port values come from each runtimes/{rt}.md Debugger Properties table. -->
 
-| Runtime | Startup task label | Task type | Problem matcher | Request mode | Status | Reference |
-|---------|--------------------|-----------|-----------------|--------------|--------|-----------|
-| node-ts | `func: host start` | `func` | `$func-node-watch` | `attach` | ✅ Implemented | [runtimes/node.md](../runtimes/node.md) |
-| node-js | `func: host start` | `func` | `$func-node-watch` | `attach` | ✅ Implemented | [runtimes/node.md](../runtimes/node.md) |
-| dotnet  | `func: host start` (Shape B) **or** `dotnet build` (Shape A) | `func` / `process` | `$func-dotnet-watch` / `$msCompile` | `attach` (B) / `launch` (A) | ✅ Implemented | [runtimes/dotnet.md](../runtimes/dotnet.md) |
-| python  | `func: host start` | `func` | `$func-python-watch` | `attach` | 🔲 Planned | [limited-support.md](../limited-support.md) |
-| java    | `func: host start` | `func` | `$func-java-watch` | `attach` | 🔲 Planned | [limited-support.md](../limited-support.md) |
+| Runtime | Startup command | Startup task label | Request Mode | Status | Reference |
+|---------|----------------|-------------------|--------------|--------|-----------|
+| node-ts | `func host start` | `func: host start` | `attach` | ✅ Implemented | [runtimes/node.md](../runtimes/node.md) |
+| node-js | `func host start` | `func: host start` | `attach` | ✅ Implemented | [runtimes/node.md](../runtimes/node.md) |
+| dotnet  | `func host start` | `func: host start` | `attach` | 🔲 Planned | [limited-support.md](../limited-support.md) |
+| python  | `func host start` | `func: host start` | `attach` | 🔲 Planned | [limited-support.md](../limited-support.md) |
+| java    | `func host start` | `func: host start` | `attach` | 🔲 Planned | [limited-support.md](../limited-support.md) |
 
-> **dotnet `processName` warning.** Shape B (`coreclr attach`) requires the literal `processName` in `launch.json` to include the `.exe` suffix on Windows (e.g., `"Scrapbook.Api.exe"`, NOT `"Scrapbook.Api"`). Without it, F5 fails with `"No process with the specified name is currently running"`. Do NOT use `${command:pickProcess}`. See [runtimes/dotnet.md § Determining processName](../runtimes/dotnet.md).
-
-The startup step depends on:
-1. The runtime-specific build/watch step from `runtimes/{rt}.md` (e.g., `npm watch` for node-ts, `dotnet build` for dotnet)
-2. The `Start Emulators` step (only when emulators are required)
-
-`dependsOn` list: first entry is the runtime-specific build/watch task label from `runtimes/{rt}.md`; second is `"Start Emulators"` when emulators are required.
+The startup step depends on: the runtime-specific build/watch step from `runtimes/{rt}.md`, and the "Start Emulators" step.
 
 Place emulator connection strings in `local.settings.json` under `"Values"`:
 

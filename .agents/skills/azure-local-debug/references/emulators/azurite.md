@@ -1,7 +1,5 @@
 # Azurite (Azure Blob / Queue / Table Storage)
 
-> `--skipApiVersionCheck` is **mandated globally** by [orchestrators/docker-compose.md](../orchestrators/docker-compose.md) § Compose-File Invariants. Do not omit it.
-
 ## Docker Image
 
 ```
