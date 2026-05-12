@@ -1,6 +1,6 @@
 # 🚂 Copilot on Rails
 
-**Copilot on Rails** is delivered through the [Azure Resource Groups extension](https://github.com/microsoft/vscode-azureresourcegroups). It walks you through scaffolding a new Azure project and setting up local debugging using two skills: **azure-project-scaffold** and **azure-local-debug**.
+**Copilot on Rails** is delivered through the [Azure Resource Groups extension](https://github.com/microsoft/vscode-azureresourcegroups). It walks you through scaffolding a new Azure project and setting up local debugging using a custom agent and two skills: **azure-project-scaffold** and **azure-local-debug**.
 
 ---
 
