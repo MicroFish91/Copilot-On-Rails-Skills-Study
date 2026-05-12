@@ -24,6 +24,7 @@ Both skills are triggered naturally through the Copilot on Rails guided agent fl
 | [Azure Resource Groups extension](https://github.com/microsoft/vscode-azureresourcegroups) | Copilot on Rails skills   |
 | [Docker Desktop](https://www.docker.com/products/docker-desktop/)                          | Local emulators           |
 | [Node.js / npm](https://nodejs.org/)                                                       | Runtime                   |
+| [Git](https://git-scm.com/)                                                                | Cloning start repos, stashing between runs |
 
 ---
 
