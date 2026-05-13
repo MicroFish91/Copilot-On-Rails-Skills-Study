@@ -27,6 +27,7 @@ Both skills are triggered naturally through the Copilot on Rails guided agent fl
 | [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)                       | Azure resource management |
 | [Azure Functions Core Tools](https://learn.microsoft.com/azure/azure-functions/functions-run-local) | Running Functions locally |
 | [Git](https://git-scm.com/)                                                                | Cloning start repos, stashing between runs |
+| [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) | Likely not needed — only if testing deployment |
 
 ---
 
