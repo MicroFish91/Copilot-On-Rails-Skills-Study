@@ -33,7 +33,7 @@ Both skills are triggered naturally through the Copilot on Rails guided agent fl
 
 ## Installing the Resource Groups Extension
 
-1. Open the [pipeline artifacts page](https://dev.azure.com/devdiv/DevDiv/_build/results?buildId=14070682&view=artifacts&pathAsName=false&type=publishedArtifacts).
+1. Open the [pipeline artifacts page](https://dev.azure.com/devdiv/DevDiv/_build/results?buildId=14089651&view=artifacts&pathAsName=false&type=publishedArtifacts).
 2. Download `vscode-azureresourcegroups-0.12.4.vsix`.
    ![Pipeline artifacts](image.png)
 3. Open the command palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
