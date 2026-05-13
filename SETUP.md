@@ -51,7 +51,7 @@ There are two ways to test the experience.
 
 |              |                                                                                               |
 | ------------ | --------------------------------------------------------------------------------------------- |
-| **Repo**     | [Copilot-On-Rails-Skills-Study](https://github.com/MicroFish91/Copilot-On-Rails-Skills-Study) |
+| **Repo**     | [Copilot-On-Rails-Greenfield-Study](https://github.com/MicroFish91/Copilot-On-Rails-Skills-Study) |
 | **Skills**   | `azure-project-scaffold` → `azure-local-debug`                                                |
 | **Time**     | Longer — end-to-end                                                                           |
 
@@ -61,7 +61,7 @@ Open this repo in VS Code and run the extension.
 
 |              |                                      |
 | ------------ | ------------------------------------ |
-| **Repo**     | _TBD_                                |
+| **Repo**     | [Copilot-On-Rails-Brownfield-Study](https://github.com/MicroFish91/Copilot-on-Rails-Brownfield-Study) |
 | **Skills**   | `azure-local-debug` only             |
 | **Time**     | Shorter — focused on local dev setup |
 
